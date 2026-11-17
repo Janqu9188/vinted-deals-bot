@@ -1,16 +1,26 @@
-name: Test Discord Bota
+name: Vinted Bot
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
 
 jobs:
-  test:
+  bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Wyslij wiadomosc
-        run: |
-          curl -H "Content-Type: application/json" \
-          -d '{"content":"Vinted Deals Bot działa!"}' \
-          "$DISCORD_WEBHOOK"
+      - name: Pobierz kod
+        uses: actions/checkout@v4
+
+      - name: Uruchom Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instaluj biblioteki
+        run: pip install -r requirements.txt
+
+      - name: Start bota
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python bot.py
