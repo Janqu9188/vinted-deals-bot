@@ -1,13 +1,24 @@
 import os
 import requests
+import time
 
-WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK")
+WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 
-def send_alert(message):
-    requests.post(
-        WEBHOOK_URL,
-        json={"content": message}
-    )
+def wyslij_alert(nazwa, cena, srednia, link):
+    prog = srednia * 0.70
 
-if __name__ == "__main__":
-    send_alert("Vinted Deals Bot został uruchomiony!")
+    if cena < prog:
+        wiadomosc = (
+            f"🔥 OKAZJA VINTED!\n"
+            f"Produkt: {nazwa}\n"
+            f"Cena: {cena} zł\n"
+            f"Średnia: {srednia} zł\n"
+            f"Link: {link}"
+        )
+
+        requests.post(
+            WEBHOOK,
+            json={"content": wiadomosc}
+        )
+
+print("Vinted Deals Bot uruchomiony!")
