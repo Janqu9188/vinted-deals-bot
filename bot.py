@@ -22,3 +22,4 @@ def wyslij_alert(nazwa, cena, srednia, link):
         )
 
 print("Vinted Deals Bot uruchomiony!")
+wyslij_alert("TEST Nike", 50, 200, "https://www.vinted.pl")
